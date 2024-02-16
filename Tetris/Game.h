@@ -87,6 +87,9 @@ int g_LockFrameCounter{ 0 };
 
 bool g_HardDrop{ false };
 
+int frameCount{};
+
+
 Counter g_Counter{};
 
 std::list<int> g_RowsToRemove{};
@@ -116,6 +119,7 @@ void HandleDrawGrid();
 void HandleDrawPieces();
 
 void HandlePieceMovement();
+
 
 bool TryRemovingRows();
 

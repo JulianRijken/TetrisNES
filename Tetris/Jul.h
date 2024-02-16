@@ -37,7 +37,6 @@ inline int ClampLoop(const int value, int min, int max)
 	while (result < min)
 		result += range + 1;
 
-
 	return result;
 }
 

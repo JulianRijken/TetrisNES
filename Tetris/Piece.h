@@ -4,10 +4,8 @@
 #include "Sprite.h"
 
 
-const int PIECE_ROTATIONS			{ 4 };
+const int PIECE_ROTATION_COUNT			{ 4 };
 const int PIECES_BLOCKS_SIDE_COUNT	{ 4 };
-const int PIECE_BLOCKS_COUNT		{ PIECES_BLOCKS_SIDE_COUNT * PIECES_BLOCKS_SIDE_COUNT };
-const int TYPES_OF_PIECES			{ 2 };
 
 const int AMOUNT_OF_TYPES_OF_PIECES	{ 7 };
 
@@ -25,7 +23,7 @@ struct PieceSettings
 {
 	int style;
 	Point2f centerOffset; // Only used for centering piece in the preview
-	bool rotations[PIECE_ROTATIONS][PIECES_BLOCKS_SIDE_COUNT][PIECES_BLOCKS_SIDE_COUNT]{};
+	bool rotations[PIECE_ROTATION_COUNT][PIECES_BLOCKS_SIDE_COUNT][PIECES_BLOCKS_SIDE_COUNT]{};
 };
 
 const PieceSettings PIECES[AMOUNT_OF_TYPES_OF_PIECES]
@@ -264,16 +262,6 @@ const Point2 KICK_CHECKS[KICK_CHECK_TYPES][KICK_CHECK_SETS][KICK_CHECK_TESTS]
 	},
 };
 
-//enum class PieceType
-//{
-//	I,
-//	J,
-//	L,
-//	O,
-//	S,
-//	T,
-//	Z,
-//};
 
 
 class Piece

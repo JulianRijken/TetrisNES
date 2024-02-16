@@ -36,40 +36,40 @@ void Draw()
 
 	g_BackgroundSprite.Draw({ 0,0,g_WindowWidth,g_WindowHeight });
 
-	for (int i = 0; i < AMOUNT_OF_TYPES_OF_PIECES; ++i)
-	{
-		DrawNumber(3, g_Statistics[i], { 48,float(33 + 16 * i) });
-	}
+	//for (int i = 0; i < AMOUNT_OF_TYPES_OF_PIECES; ++i)
+	//{
+	//	DrawNumber(3, g_Statistics[i], { 48,float(33 + 16 * i) });
+	//}
 
-	// Draw Score
-	DrawNumber(6, g_Score, { 192,161 });
+	//// Draw Score
+	//DrawNumber(6, g_Score, { 192,161 });
 
-	// Draw level
-	DrawNumber(2, g_CurrentLevel, { 208,57 });
+	//// Draw level
+	//DrawNumber(2, g_CurrentLevel, { 208,57 });
 
-	// Draw levels Cleared
-	DrawNumber(3, g_LinesCleared, { 152,201 });
+	//// Draw levels Cleared
+	//DrawNumber(3, g_LinesCleared, { 152,201 });
 
 
-	// TEMP
-	//Point2f offset{ 767,355 };
-	Point2f offset{ 832,416 };
+	//// TEMP
+	////Point2f offset{ 767,355 };
+	//Point2f offset{ 832,416 };
 
-	offset.x -= g_NexPiece.GetCenterOffset().x * CELL_SIZE;
-	offset.y -= g_NexPiece.GetCenterOffset().y * CELL_SIZE;
+	//offset.x -= g_NexPiece.GetCenterOffset().x * CELL_SIZE;
+	//offset.y -= g_NexPiece.GetCenterOffset().y * CELL_SIZE;
 
-	for (const Point2 blockPosition : g_NexPiece.GetBlocks())
-	{
-		Rectf fillRect
-		{
-			blockPosition.x * CELL_SIZE + offset.x,
-			blockPosition.y * CELL_SIZE + offset.y,
-			CELL_SIZE,
-			CELL_SIZE,
-		};
+	//for (const Point2 blockPosition : g_NexPiece.GetBlocks())
+	//{
+	//	Rectf fillRect
+	//	{
+	//		blockPosition.x * CELL_SIZE + offset.x,
+	//		blockPosition.y * CELL_SIZE + offset.y,
+	//		CELL_SIZE,
+	//		CELL_SIZE,
+	//	};
 
-		g_BlocksSpriteSheet.Draw(fillRect, g_NexPiece.GetStyle(), ClampLoop(g_CurrentLevel, 0, MAX_LEVELS_SPRITES - 1));
-	}
+	//	g_BlocksSpriteSheet.Draw(fillRect, g_NexPiece.GetStyle(), ClampLoop(g_CurrentLevel, 0, MAX_LEVELS_SPRITES - 1));
+	//}
 }
 
 void Update(float elapsedSec)
@@ -78,6 +78,9 @@ void Update(float elapsedSec)
 		return;
 
 	HandlePieceMovement();
+
+	frameCount++;
+	std::cout << 1.0f / elapsedSec << std::endl;
 }
 
 void End()
@@ -160,7 +163,7 @@ void HandleDrawPieces()
 		float lockPercent{ float(g_LockFrameCounter) / FRAMES_FOR_LOCK };
 
 
-		SetColor(0, 0, 0, g_HardDrop ? 0.0f : SmoothEndLerp(0.0f, 0.75f, lockPercent));
+		SetColor(0, 0, 0, SmoothEndLerp(0.0f, 0.75f, lockPercent));
 		FillRect(fillRect);
 		//g_BlocksSpriteSheet.Draw(fillRect, 3, ClampLoop(g_CurrentLevel, 0, MAX_LEVELS_SPRITES - 1));
 	}
@@ -211,11 +214,10 @@ bool TryRemovingRows()
 			// Remove rows
 			for (int row : g_RowsToRemove)
 			{
-				for (int x = 0; x < GRID_SIZE_X; ++x)
-				{
+		
 					g_PlacedGrid[4 - col][row].active = false;
 					g_PlacedGrid[5 + col][row].active = false;
-				}
+				
 			}
 		}
 		else
@@ -288,7 +290,7 @@ bool CanMove(const int moveDeltaX, const int moveDeltaY)
 void RotatePiece(RotationDirection direction)
 {
 	const int fromR{ g_ActivePiece.GetRotation() };
-	const int toR{ ClampLoop(g_ActivePiece.GetRotation() + int(direction),0,PIECE_ROTATIONS - 1) };
+	const int toR{ ClampLoop(g_ActivePiece.GetRotation() + int(direction),0,PIECE_ROTATION_COUNT - 1) };
 
 	g_AudioManager.PlaySound("rotate");
 	g_LockFrameCounter = 0;
@@ -373,7 +375,6 @@ void CheckFullRows()
 
 	if(rowsToRemove.size() > 0)
 		ClearRows(rowsToRemove);
-	
 }
 
 void RestartGame()
